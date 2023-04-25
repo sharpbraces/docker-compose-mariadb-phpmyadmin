@@ -4,12 +4,6 @@ Dev environment for MariaDB and PhpMyAdmin.
 If you have Docker Desktop installed just download the repository and in the newly created folder type:
 
 ```
-docker-compose build
-```
-
-and
-
-```
 docker-compose up -d
 ```
 
