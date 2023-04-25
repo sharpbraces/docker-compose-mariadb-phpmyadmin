@@ -8,4 +8,3 @@ docker-compose up -d
 ```
 
 In your browser just go to http://localhost:5050 and PhpMyAdmin should appears there.
-If you want to import some data then place your import.sql file inside the mariadb folder before building.
