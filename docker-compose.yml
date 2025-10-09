@@ -1,25 +1,24 @@
-version: "3.9"
 services:
-
   mariadb:
     container_name: mariadb
-    image: mariadb
+    image: mariadb:latest
     ports:
       - "3306:3306"
     volumes:
-      - mariadb-data:/var/lib/mysql
+      - /Users/tp0ck3r/volume/mariadb:/var/lib/mysql
     deploy:
       restart_policy:
         condition: always
     environment:
       - MYSQL_ROOT_PASSWORD=${MARIADB_PASSWORD}
-    command: [
-      '--wait_timeout=28800',
-    ]
+    command:
+      [
+        '--wait_timeout=28800',
+      ]
 
   phpmyadmin:
     container_name: phpmyadmin
-    image: phpmyadmin
+    image: phpmyadmin:latest
     ports:
       - "5050:80"
     depends_on:
@@ -32,5 +31,17 @@ services:
       - MYSQL_ROOT_PASSWORD=${MARIADB_PASSWORD}
       - UPLOAD_LIMIT=1000000000000000
 
-volumes:
-  mariadb-data:
+  couchdb:
+    container_name: couchdb
+    image: couchdb:latest
+    ports:
+      - "5984:5984"
+    volumes:
+      - /Users/tp0ck3r/volume/couchdb:/opt/couchdb/data
+      - ./couchdb/local.ini:/opt/couchdb/etc/local.ini
+    deploy:
+      restart_policy:
+        condition: always
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=${COUCHDB_PASSWORD}
