@@ -5,7 +5,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - /Users/tp0ck3r/volume/mariadb:/var/lib/mysql
+      - /Volumes/External/Tmp/Docker/Volume/mariadb:/var/lib/mysql
     deploy:
       restart_policy:
         condition: always
@@ -31,17 +31,19 @@ services:
       - MYSQL_ROOT_PASSWORD=${MARIADB_PASSWORD}
       - UPLOAD_LIMIT=1000000000000000
 
-  couchdb:
-    container_name: couchdb
-    image: couchdb:latest
+  mariadb-mcp:
+    container_name: mariadb-mcp
+    build: ./mariadb-mcp
+    depends_on:
+      - mariadb
     ports:
-      - "5984:5984"
-    volumes:
-      - /Users/tp0ck3r/volume/couchdb:/opt/couchdb/data
-      - ./couchdb/local.ini:/opt/couchdb/etc/local.ini
+      - "5001:5001"
+    environment:
+      - MCP_DB_HOST=mariadb
+      - MCP_DB_PORT=3306
+      - MCP_DB_USER=root
+      - MCP_DB_PASSWORD=${MARIADB_PASSWORD}
+      - MCP_DB_NAME=minto
     deploy:
       restart_policy:
         condition: always
-    environment:
-      - COUCHDB_USER=admin
-      - COUCHDB_PASSWORD=${COUCHDB_PASSWORD}
