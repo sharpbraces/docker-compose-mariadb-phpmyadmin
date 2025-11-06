@@ -30,3 +30,17 @@ services:
       - PMA_HOST=mariadb
       - MYSQL_ROOT_PASSWORD=${MARIADB_PASSWORD}
       - UPLOAD_LIMIT=1000000000000000
+
+  chromadb:
+    container_name: chromadb
+    image: ghcr.io/chroma-core/chroma:latest
+    ports:
+      - "8000:8000"
+    volumes:
+      - /Volumes/External/Tmp/Docker/Volume/chroma:/data
+    environment:
+      - IS_PERSISTENT=TRUE
+      - ALLOW_RESET=TRUE
+    deploy:
+      restart_policy:
+        condition: always
